@@ -6,14 +6,14 @@ class Profile extends Component {
   }
 
   render(){
-    const { user, gamble, getNextUser, randomGamble, maxViews, viewed } = this.props
+    const { users, gamble, getNextUser, randomGamble, maxViews, viewed } = this.props
     return (
       <div>
-        { !user ? (<p>Loading...</p>) : (
+        { !users ? (<p>Loading...</p>) : (
           <div>
-            <Progress info value={viewed} max={maxViews}>{viewed}%</Progress>
-            <Image is="128x128" src={user.picture.large} />
-            <p>{user.name.first}</p>
+            <Progress info value={viewed + 1} max={maxViews}>{viewed}%</Progress>
+            <Image is="128x128" src={users[viewed].picture.large} />
+            <p>{users[viewed].name.first}</p>
             {viewed < maxViews && <Button info onClick={getNextUser}>Next</Button>}
             {gamble && <Button onClick={randomGamble}>Gamble</Button>}
           </div>

@@ -4,14 +4,15 @@ import './App.css';
 
 class App extends Component {
   state = {
-    user: null,
+    users: null,
     viewed: 0,
     maxViews: 10,
     gamble: true
   }
 
   randomGamble = () => {
-    const ranNum = Math.floor(Math.random() * 16) + 4;
+    // const currentNumber = this.state.viewed
+    const ranNum = (Math.floor(Math.random() * 16) + 4) - this.state.viewed;
     this.setState({
       gamble: false,
       maxViews: ranNum
@@ -24,30 +25,30 @@ class App extends Component {
     }))
   }
 
-  getNextUser = () => {
-    this.setState({
-      user: null
-    })
-    fetch('https://randomuser.me/api/')
+  getUsers = () => {
+    fetch(`https://randomuser.me/api/?results=${this.state.maxViews}`)
     .then((response) => {
       return response.json()
     }).then(users => {
       this.setState({
-        user: users.results[0]
+        users: users.results
       })
-      this.incrementViewed()
     })
   }
 
+  getNextUser = () => {
+    this.incrementViewed()
+  }
+
   render() {
-    const { viewed, maxViews, user, gamble } = this.state
+    const { viewed, maxViews, users, gamble } = this.state
     return (
       <div className="App">
-        <p> You have viewed {viewed}/{maxViews} profiles </p>
+        <p> You have viewed {viewed + 1}/{maxViews} profiles </p>
         <Profile
           viewed={viewed}
           maxViews={maxViews}
-          user={user}
+          users={users}
           gamble={gamble}
           randomGamble={this.randomGamble}
           getNextUser={this.getNextUser}
@@ -56,7 +57,7 @@ class App extends Component {
     );
   }
   componentDidMount() {
-    this.getNextUser()
+    this.getUsers()
   }
 }
 
