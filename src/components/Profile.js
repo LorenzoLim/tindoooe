@@ -4,7 +4,7 @@ import { Button, Image, Progress } from 'reactbulma';
 class Profile extends Component {
   state = {
   }
-
+ 
   render(){
     const { users, gamble, getNextUser, randomGamble, maxViews, viewed } = this.props
     return (
